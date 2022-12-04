@@ -15,7 +15,9 @@ export default class MiniSlider extends Slider {
 			}
 		});
 
-		this.slides[0].classList.add(this.activeClass);
+		if (!this.slides[0].closest('button')) {
+			this.slides[0].classList.add(this.activeClass);
+		}
 
 		if (this.animate) {
 			this.slides[0].querySelector('.card__title').style.opacity = '1';
@@ -43,11 +45,7 @@ export default class MiniSlider extends Slider {
 	}
 
 	bindTriggers() {
-		this.next.addEventListener('click', this.nextSlide());
-
-		if (!this.slides[0].closest('button')) {
-			this.slides[0].classList.add(this.activeClass);
-		}
+		this.next.addEventListener('click', () => this.nextSlide());
 
 		this.prev.addEventListener('click', () => {
 			for (let i = this.slides.length - 1; i > 0; i--) {
@@ -55,6 +53,7 @@ export default class MiniSlider extends Slider {
 					let active = this.slides[i];
 					this.container.insertBefore(active, this.slides[0]);
 					this.decorizeSlides();
+					break;
 				}
 			}
 		});
